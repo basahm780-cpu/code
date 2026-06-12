@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>منظومة رقابة الأداء — مديرية التدقيق والرقابة الداخلية 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0D2B55;--blue:#1A4F8A;--teal:#0B6E5E;--gold:#B8860B;
+  --green:#1B6B3A;--red:#C0392B;--purple:#5B2C6F;--orange:#C44B00;
+  --g0:#F4F7FB;--g1:#E8EDF5;--g2:#C8D3E8;--white:#fff;--dark:#1A1F2E;
+  --sh:0 4px 20px rgba(13,43,85,.12);--sh2:0 8px 36px rgba(13,43,85,.2);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cairo',sans-serif;background:var(--g0);color:var(--dark);direction:rtl;min-height:100vh;}
+
+/* ══ TOP BAR ══ */
+.topbar{
+  background:linear-gradient(135deg,var(--navy) 0%,#0B3D72 55%,var(--teal) 100%);
+  padding:0;display:flex;align-items:stretch;
+  border-bottom:3px solid var(--gold);position:sticky;top:0;z-index:300;
+  box-shadow:var(--sh2);
+}
+.tb-brand{padding:14px 22px;color:#fff;font-weight:900;font-size:.95rem;
+  border-left:1px solid rgba(255,255,255,.15);flex-shrink:0;display:flex;align-items:center;gap:10px;}
+.tb-brand span{color:#FFD700;font-size:.72rem;display:block;font-weight:600;}
+.tb-tabs{display:flex;flex:1;overflow-x:auto;}
+.tb-tab{padding:0 18px;color:rgba(255,255,255,.75);font-family:inherit;font-size:.85rem;
+  font-weight:700;border:none;background:transparent;cursor:pointer;
+  border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.tb-tab:hover{color:#fff;background:rgba(255,255,255,.08);}
+.tb-tab.active{color:#FFD700;border-bottom-color:#FFD700;background:rgba(255,255,255,.1);}
+.tb-right{padding:0 18px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+  border-right:1px solid rgba(255,255,255,.15);}
+.live-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;border-radius:20px;padding:5px 14px;font-size:.8rem;font-weight:700;
+  display:flex;align-items:center;gap:6px;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#4CAF50;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.3);}}
+
+/* ══ VIEWS ══ */
+.view{display:none;max-width:1280px;margin:0 auto;padding:24px 18px 60px;}
+.view.active{display:block;}
+
+/* ══ CARDS ══ */
+.card{background:#fff;border-radius:12px;box-shadow:var(--sh);margin-bottom:20px;overflow:hidden;}
+.card-hdr{padding:16px 22px;border-bottom:2px solid var(--g1);
+  display:flex;align-items:center;justify-content:space-between;background:var(--g0);}
+.card-hdr h2{font-size:.95rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;}
+.card-body{padding:22px;}
+
+/* ══ STATS BAR ══ */
+.stats-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px;}
+.stat-box{background:#fff;border-radius:12px;padding:18px 16px;box-shadow:var(--sh);
+  border-top:4px solid var(--navy);text-align:center;}
+.stat-num{font-size:2.2rem;font-weight:900;color:var(--navy);line-height:1;}
+.stat-label{font-size:.78rem;color:#4A5568;margin-top:4px;font-weight:600;}
+.stat-sub{font-size:.72rem;color:#9aa0a6;margin-top:2px;}
+
+/* ══ ADMIN PROGRESS ══ */
+.admin-progress{background:#fff;border-radius:12px;padding:20px 24px;
+  box-shadow:var(--sh);margin-bottom:20px;}
+.ap-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+.ap-title{font-size:1rem;font-weight:800;color:var(--navy);}
+.prog-outer{background:var(--g1);border-radius:8px;height:14px;overflow:hidden;}
+.prog-inner{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--blue),var(--gold));
+  transition:width .6s ease;}
+
+/* ══ DIRECTORATE TABLE ══ */
+.dir-table{width:100%;border-collapse:collapse;}
+.dir-table th{background:var(--navy);color:#fff;padding:11px 14px;
+  font-size:.8rem;font-weight:700;text-align:right;white-space:nowrap;}
+.dir-table td{padding:11px 14px;border-bottom:1px solid var(--g1);
+  font-size:.83rem;vertical-align:middle;}
+.dir-table tr:last-child td{border-bottom:none;}
+.dir-table tr:nth-child(even) td{background:var(--g0);}
+.dir-table tr:hover td{background:#EBF3FC;transition:background .15s;}
+
+.status-badge{display:inline-flex;align-items:center;gap:5px;
+  border-radius:14px;padding:4px 12px;font-size:.75rem;font-weight:700;white-space:nowrap;}
+.s-done{background:#E8F5E9;color:var(--green);}
+.s-pending{background:#FFF8E1;color:var(--gold);}
+.s-not{background:#FEECEB;color:var(--red);}
+.s-partial{background:#E3F2FD;color:var(--blue);}
+
+.score-pill{display:inline-block;border-radius:10px;padding:3px 10px;
+  font-size:.8rem;font-weight:800;}
+.sp-ex{background:#E8F5E9;color:var(--green);}
+.sp-vg{background:#E3F2FD;color:var(--blue);}
+.sp-gd{background:#FFF8E1;color:var(--gold);}
+.sp-ni{background:#FFF3E0;color:var(--orange);}
+.sp-wr{background:#FEECEB;color:var(--red);}
+.sp-na{background:var(--g1);color:#9aa0a6;}
+
+.copy-link{background:var(--g0);border:1px solid var(--g2);border-radius:6px;
+  padding:4px 10px;font-size:.72rem;color:var(--blue);cursor:pointer;
+  font-family:inherit;font-weight:700;transition:all .2s;white-space:nowrap;}
+.copy-link:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* ══ LINK GENERATOR ══ */
+.dir-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;}
+.dir-card{background:#fff;border-radius:12px;box-shadow:var(--sh);
+  border-top:4px solid var(--blue);overflow:hidden;transition:all .25s;}
+.dir-card:hover{box-shadow:var(--sh2);transform:translateY(-2px);}
+.dc-header{padding:14px 18px;display:flex;align-items:center;gap:12px;}
+.dc-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:1.2rem;flex-shrink:0;background:var(--g1);}
+.dc-name{font-size:.9rem;font-weight:800;color:var(--navy);}
+.dc-dept{font-size:.75rem;color:#4A5568;margin-top:2px;}
+.dc-body{padding:0 18px 16px;}
+.dc-link{display:flex;align-items:center;gap:8px;background:var(--g0);
+  border:1px solid var(--g2);border-radius:8px;padding:8px 12px;margin-bottom:8px;}
+.dc-link-text{flex:1;font-size:.72rem;color:var(--blue);word-break:break-all;
+  font-family:monospace;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.dc-btns{display:flex;gap:6px;flex-wrap:wrap;}
+
+/* ══ FORM VIEW (for directorates) ══ */
+.form-hero{
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  padding:28px 24px;text-align:center;color:#fff;
+}
+.form-hero h1{font-size:1.3rem;font-weight:900;line-height:1.5;}
+.form-hero p{font-size:.85rem;opacity:.85;margin-top:6px;}
+.form-meta{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:14px;}
+.fm-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;border-radius:20px;padding:5px 16px;font-size:.78rem;font-weight:600;}
+
+.form-wrap{max-width:860px;margin:0 auto;padding:24px 18px 60px;}
+
+.section-block{background:#fff;border-radius:12px;box-shadow:var(--sh);
+  margin-bottom:18px;overflow:hidden;}
+.sec-hdr{padding:14px 20px;display:flex;align-items:center;gap:12px;cursor:pointer;}
+.sec-hdr:hover{opacity:.92;}
+.sec-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;font-size:1.1rem;background:rgba(255,255,255,.2);flex-shrink:0;}
+.sec-title{font-size:.92rem;font-weight:800;color:#fff;}
+.sec-sub{font-size:.72rem;color:rgba(255,255,255,.8);margin-top:1px;}
+.sec-chev{color:#fff;font-size:.9rem;transition:transform .3s;margin-right:auto;}
+.section-block.open .sec-chev{transform:rotate(180deg);}
+.sec-body{display:none;padding:16px 18px;}
+.section-block.open .sec-body{display:block;}
+
+.crit-row{padding:12px;border-bottom:1px solid var(--g1);transition:background .15s;}
+.crit-row:last-child{border-bottom:none;}
+.crit-row:hover{background:var(--g0);}
+.crit-name{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:3px;}
+.crit-desc{font-size:.78rem;color:#4A5568;margin-bottom:3px;}
+.crit-indicator{font-size:.75rem;color:var(--teal);font-style:italic;margin-bottom:8px;}
+.crit-inputs{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.score-inp{width:80px;padding:8px;text-align:center;border:2px solid var(--g2);
+  border-radius:8px;font-family:inherit;font-size:1rem;font-weight:700;
+  color:var(--navy);transition:all .2s;direction:ltr;}
+.score-inp:focus{outline:none;border-color:var(--blue);}
+.score-inp.ex{border-color:var(--green);background:#E8F5E9;color:var(--green);}
+.score-inp.vg{border-color:var(--blue);background:#EBF3FC;color:var(--blue);}
+.score-inp.gd{border-color:var(--gold);background:#FFF8E1;color:var(--gold);}
+.score-inp.ni{border-color:var(--orange);background:#FFF3E0;color:var(--orange);}
+.score-inp.wr{border-color:var(--red);background:#FEECEB;color:var(--red);}
+.weight-tag{background:var(--navy);color:#fff;border-radius:12px;
+  padding:2px 10px;font-size:.72rem;font-weight:700;}
+.efqm-tag{background:var(--teal);color:#fff;border-radius:12px;
+  padding:2px 10px;font-size:.72rem;font-weight:700;}
+.res-tag{display:inline-block;border-radius:8px;padding:3px 10px;font-size:.8rem;font-weight:800;}
+.note-inp{flex:1;min-width:160px;border:1px solid var(--g2);border-radius:6px;
+  padding:7px 10px;font-family:inherit;font-size:.8rem;direction:rtl;resize:none;}
+.note-inp:focus{outline:none;border-color:var(--blue);}
+
+.submit-bar{background:#fff;border-radius:12px;box-shadow:var(--sh2);
+  padding:20px 22px;margin-top:24px;border-top:4px solid var(--gold);}
+.submit-score{font-size:2.5rem;font-weight:900;color:var(--navy);text-align:center;}
+.submit-level{text-align:center;font-size:.9rem;font-weight:700;margin-top:4px;}
+
+/* ══ BUTTONS ══ */
+.btn{padding:9px 18px;border-radius:8px;border:none;font-family:inherit;
+  font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;
+  display:inline-flex;align-items:center;gap:6px;}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.btn:active{transform:none;}
+.bn{background:var(--navy);color:#fff;}
+.bb{background:var(--blue);color:#fff;}
+.bt{background:var(--teal);color:#fff;}
+.bg{background:var(--green);color:#fff;}
+.br{background:var(--red);color:#fff;}
+.bo{background:transparent;color:var(--navy);border:2px solid var(--navy);}
+.bsm{padding:5px 12px;font-size:.78rem;}
+.bxs{padding:3px 9px;font-size:.73rem;}
+
+/* ══ ALERTS ══ */
+.alert{border-radius:8px;padding:12px 16px;margin:10px 0;
+  display:flex;gap:10px;align-items:flex-start;font-size:.83rem;line-height:1.7;}
+.ag{background:#E8F5E9;border-right:4px solid var(--green);}
+.ab{background:#E3F2FD;border-right:4px solid var(--blue);}
+.ay{background:#FFF8E1;border-right:4px solid var(--gold);}
+.ar{background:#FEECEB;border-right:4px solid var(--red);}
+
+/* ══ SUCCESS SCREEN ══ */
+.success-screen{text-align:center;padding:60px 24px;}
+.success-icon{font-size:5rem;margin-bottom:16px;display:block;}
+.success-title{font-size:1.5rem;font-weight:900;color:var(--green);}
+.success-sub{font-size:.9rem;color:#4A5568;margin-top:8px;line-height:1.7;}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--navy);color:#fff;padding:12px 26px;border-radius:28px;
+  font-weight:700;font-size:.88rem;box-shadow:0 8px 32px rgba(0,0,0,.25);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:9999;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ══ MODAL ══ */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;
+  display:flex;align-items:center;justify-content:center;padding:16px;
+  backdrop-filter:blur(4px);}
+.overlay.hidden{display:none;}
+.modal{background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.3);
+  max-width:600px;width:100%;max-height:88vh;overflow-y:auto;}
+.modal-hdr{padding:16px 20px;border-bottom:2px solid var(--g1);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--g0);position:sticky;top:0;z-index:10;}
+.modal-hdr h3{font-size:.95rem;font-weight:800;color:var(--navy);}
+.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:#4A5568;}
+.modal-body{padding:20px;}
+
+/* ══ FORM FIELDS ══ */
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:.82rem;font-weight:700;color:#4A5568;margin-bottom:5px;}
+.field input,.field select,.field textarea{
+  width:100%;padding:9px 12px;border:2px solid var(--g2);border-radius:7px;
+  font-family:inherit;font-size:.88rem;color:var(--dark);transition:border-color .2s;direction:rtl;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+@media(max-width:700px){
+  .grid2{grid-template-columns:1fr;}
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .dir-cards{grid-template-columns:1fr;}
+  .tb-brand span{display:none;}
+}
+@media print{
+  .topbar,.tb-tabs,.tb-right{display:none!important;}
+  .view{display:block!important;padding:0;}
+  .section-block .sec-body{display:block!important;}
+}
+
+/* ── SEARCH BAR ── */
+.search-bar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.search-inp{flex:1;min-width:200px;padding:9px 14px;border:2px solid var(--g2);
+  border-radius:8px;font-family:inherit;font-size:.88rem;direction:rtl;}
+.search-inp:focus{outline:none;border-color:var(--blue);}
+.filter-btn{padding:8px 16px;border-radius:8px;border:2px solid var(--g2);
+  background:#fff;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;
+  transition:all .2s;color:var(--navy);}
+.filter-btn.active,.filter-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* ── NOTIFICATION BELL ── */
+.notif-wrap{position:fixed;bottom:24px;right:24px;z-index:500;}
+.notif-btn{width:52px;height:52px;border-radius:50%;background:var(--navy);color:#fff;
+  border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 16px rgba(13,43,85,.35);
+  transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.notif-btn:hover{background:var(--blue);transform:scale(1.1);}
+.notif-count{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;
+  border-radius:50%;width:20px;height:20px;font-size:.72rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;border:2px solid #fff;}
+
+/* ── WHATSAPP BULK ── */
+.wa-bulk-btn{background:#25D366;color:#fff;border:none;border-radius:8px;
+  padding:9px 18px;font-family:inherit;font-size:.85rem;font-weight:700;
+  cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s;}
+.wa-bulk-btn:hover{background:#128C7E;transform:translateY(-1px);}
+
+/* ── CHART BAR ── */
+.chart-wrap{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.chart-row{display:flex;align-items:center;gap:10px;font-size:.8rem;}
+.chart-label{width:160px;text-align:right;font-weight:700;color:var(--navy);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
+.chart-bar-bg{flex:1;height:22px;background:var(--g1);border-radius:5px;overflow:hidden;}
+.chart-bar-fill{height:100%;border-radius:5px;transition:width .7s ease;display:flex;align-items:center;padding-right:8px;}
+.chart-val{font-size:.75rem;font-weight:800;color:#fff;white-space:nowrap;}
+.chart-score{width:52px;font-weight:800;text-align:center;font-size:.85rem;}
+
+/* ── PRINT ── */
+@media print{
+  .topbar,.notif-wrap,.btn-bar,.tb-tabs{display:none!important;}
+  .view{display:block!important;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══ TOP BAR ══ -->
+<nav class="topbar">
+  <div class="tb-brand">
+    🔍 التدقيق والرقابة
+    <div><span>نظام رقابة الأداء 2026</span></div>
+  </div>
+  <div class="tb-tabs">
+    <button class="tb-tab active" onclick="showView('v-admin')">📊 لوحة المتابعة</button>
+    <button class="tb-tab" onclick="showView('v-links')">🔗 روابط المديريات</button>
+    <button class="tb-tab" onclick="showView('v-settings')">⚙️ إعدادات</button>
+  </div>
+  <div class="tb-right">
+    <div class="live-badge"><div class="live-dot"></div>مباشر</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     VIEW: ADMIN DASHBOARD
+══════════════════════════════════ -->
+<div class="view active" id="v-admin">
+
+  <!-- STATS -->
+  <div class="stats-bar" id="statsBar"></div>
+
+  <!-- PROGRESS -->
+  <div class="admin-progress">
+    <div class="ap-hdr">
+      <div class="ap-title">📈 نسبة الاستجابة الإجمالية</div>
+      <div style="font-size:1.1rem;font-weight:900;color:var(--navy)" id="progPct">0%</div>
+    </div>
+    <div class="prog-outer"><div class="prog-inner" id="progBar" style="width:0%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:.75rem;color:#9aa0a6;margin-top:6px">
+      <span>0 مديرية</span>
+      <span id="progText">0 من 0 أكملت التقييم</span>
+      <span id="totalDirs">0 مديرية</span>
+    </div>
+  </div>
+
+
+  <!-- SCORE CHART -->
+  <div class="card" id="chartCard" style="display:none">
+    <div class="card-hdr"><h2>📊 مقارنة النتائج بيانياً</h2></div>
+    <div class="card-body"><div class="chart-wrap" id="chartWrap"></div></div>
+  </div>
+
+  <!-- MAIN TABLE -->
+  
+  <!-- SEARCH & FILTER -->
+  <div class="search-bar">
+    <input class="search-inp" id="searchInp" placeholder="🔍 ابحث عن مديرية أو مسؤول أو محافظة..." oninput="filterTable()">
+    <select id="regionFilter" onchange="filterTable()" style="padding:8px 12px;border:2px solid var(--g2);border-radius:8px;font-family:inherit;font-size:.82rem;color:var(--navy);font-weight:700;cursor:pointer;direction:rtl">
+      <option value="">🗺️ كل المناطق</option>
+      <option value="بغداد-كرخ">بغداد — الكرخ</option>
+      <option value="بغداد-رصافة">بغداد — الرصافة</option>
+      <option value="البصرة">البصرة</option>
+      <option value="نينوى">نينوى</option>
+      <option value="إقليم كردستان">إقليم كردستان</option>
+      <option value="ذي قار">ذي قار</option>
+      <option value="الأنبار">الأنبار</option>
+      <option value="ديالى">ديالى</option>
+      <option value="كركوك">كركوك</option>
+      <option value="بابل">بابل</option>
+      <option value="كربلاء">كربلاء</option>
+      <option value="النجف">النجف</option>
+      <option value="واسط">واسط</option>
+      <option value="ميسان">ميسان</option>
+      <option value="المثنى">المثنى</option>
+      <option value="القادسية">القادسية</option>
+      <option value="صلاح الدين">صلاح الدين</option>
+      <option value="حلبجة">حلبجة</option>
+      <option value="ديوان الوزارة">ديوان الوزارة والمديريات المركزية</option>
+    </select>
+    <button class="filter-btn active" id="fAll"     onclick="setFilter('all')">الكل</button>
+    <button class="filter-btn"        id="fDone"    onclick="setFilter('done')">✅ مكتملة</button>
+    <button class="filter-btn"        id="fPending" onclick="setFilter('pending')">⏳ لم تُرسل</button>
+    <button class="wa-bulk-btn"       onclick="bulkWhatsApp()">📱 واتساب للمعلقة</button>
+  </div>
+
+<div class="card">
+    <div class="card-hdr">
+      <h2>📋 حالة المديريات والأقسام</h2>
+      <div style="display:flex;gap:8px">
+        <button class="btn bsm bb" onclick="exportAdminCSV()">📥 تصدير Excel</button>
+        <button class="btn bsm bt" onclick="refreshData()">🔄 تحديث</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="dir-table" id="adminTable">
+        <thead>
+          <tr>
+            <th>المديرية / القسم</th>
+            <th>المنطقة / المحافظة</th>
+            <th>الحالة</th>
+            <th>النتيجة</th>
+            <th>مستوى الأداء</th>
+            <th>تاريخ الإرسال</th>
+            <th>الوقت المستغرق</th>
+            <th>الإجراء</th>
+          </tr>
+        </thead>
+        <tbody id="adminTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     VIEW: LINKS
+══════════════════════════════════ -->
+<div class="view" id="v-links">
+  <div class="card">
+    <div class="card-hdr">
+      <h2>🔗 روابط المديريات — رابط خاص لكل مديرية</h2>
+      <div style="display:flex;gap:8px">
+        <button class="btn bsm bg" onclick="openAddDirModal()">➕ إضافة مديرية</button>
+        <button class="btn bsm bb" onclick="copyAllLinks()">📋 نسخ كل الروابط</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="alert ab">
+        ℹ️ كل مديرية لها رابط خاص يحتوي على كودها الفريد — عند الضغط تُفتح الاستمارة مُعبّأة باسم المديرية تلقائياً. أرسل الرابط الخاص لكل مديرية عبر واتساب أو إيميل.
+      </div>
+      <div class="dir-cards" id="dirCards"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     VIEW: SETTINGS
+══════════════════════════════════ -->
+<div class="view" id="v-settings">
+  <div class="card">
+    <div class="card-hdr"><h2>⚙️ إعدادات النظام</h2></div>
+    <div class="card-body">
+      <div class="grid2">
+        <div class="field"><label>اسم المنظومة</label><input id="s_sysname" value="استمارة رقابة الأداء المؤسسي — مديرية التدقيق والرقابة الداخلية 2026"></div>
+        <div class="field"><label>فترة التقييم</label>
+          <select id="s_period">
+            <option>الربع الأول 2026</option><option>الربع الثاني 2026</option>
+            <option>الربع الثالث 2026</option><option>الربع الرابع 2026</option>
+            <option>نصف السنة الأول 2026</option><option>السنة الكاملة 2026</option>
+          </select>
+        </div>
+        <div class="field"><label>الموعد النهائي للتقييم</label><input type="date" id="s_deadline"></div>
+        <div class="field"><label>اسم المدير العام (للمتابعة)</label><input id="s_admin" placeholder="الاسم الكامل"></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn bn" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+        <button class="btn bo" onclick="resetAll()">🔄 إعادة تعيين الكل</button>
+        <button class="btn bsm" style="background:var(--purple);color:#fff" onclick="exportFullData()">📦 تصدير كل البيانات</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr"><h2>🎯 مستويات الأداء</h2></div>
+    <div class="card-body">
+      <div id="levelsEditor"></div>
+      <button class="btn bsm bg" onclick="addLevel()" style="margin-top:10px">➕ إضافة مستوى</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     VIEW: FORM (for directorates)
+══════════════════════════════════ -->
+<div class="view" id="v-form" style="max-width:100%;padding:0;">
+
+  <!-- form hero injected dynamically -->
+  <div id="formHero"></div>
+
+  <div class="form-wrap" id="formWrap">
+    <!-- sections injected dynamically -->
+    <div id="formSections"></div>
+
+    <!-- submit bar -->
+    <div class="submit-bar" id="submitBar">
+      <div class="submit-score" id="submitScore">0.0 / 100</div>
+      <div class="submit-level" id="submitLevel">ابدأ التقييم...</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap">
+        <button class="btn bn" onclick="submitForm()">✅ إرسال الاستمارة</button>
+        <button class="btn bo" onclick="saveFormDraft()">💾 حفظ مسودة</button>
+        <button class="btn bsm" style="background:var(--purple);color:#fff" onclick="window.print()">🖨️ طباعة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- success screen (hidden) -->
+  <div class="success-screen" id="successScreen" style="display:none">
+    <span class="success-icon">✅</span>
+    <div class="success-title">تم إرسال الاستمارة بنجاح!</div>
+    <div class="success-sub" id="successMsg"></div>
+    <div style="margin-top:24px">
+      <button class="btn bn" onclick="showView('v-admin')">🏠 العودة للوحة المتابعة</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ MODAL: ADD DIRECTORATE ══ -->
+<div class="overlay hidden" id="addDirModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="addDirTitle">➕ إضافة مديرية / قسم</h3>
+      <button class="modal-close" onclick="closeModal('addDirModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="grid2">
+        <div class="field"><label>اسم المديرية / القسم *</label><input id="md_name" placeholder="مثال: مديرية تربية البصرة"></div>
+        <div class="field"><label>اسم المسؤول *</label><input id="md_head" placeholder="الاسم الكامل والمنصب"></div>
+        <div class="field"><label>المنطقة / المحافظة</label>
+          <select id="md_region" style="width:100%;padding:9px 12px;border:2px solid var(--g2);border-radius:7px;font-family:inherit;font-size:.88rem;direction:rtl">
+            <option value="">-- اختر --</option>
+            <option value="بغداد-كرخ">بغداد — الكرخ</option>
+            <option value="بغداد-رصافة">بغداد — الرصافة</option>
+            <option value="البصرة">البصرة</option>
+            <option value="نينوى">نينوى</option>
+            <option value="إقليم كردستان">إقليم كردستان</option>
+            <option value="ذي قار">ذي قار</option>
+            <option value="الأنبار">الأنبار</option>
+            <option value="ديالى">ديالى</option>
+            <option value="كركوك">كركوك</option>
+            <option value="بابل">بابل</option>
+            <option value="كربلاء">كربلاء</option>
+            <option value="النجف">النجف</option>
+            <option value="واسط">واسط</option>
+            <option value="ميسان">ميسان</option>
+            <option value="المثنى">المثنى</option>
+            <option value="القادسية">القادسية</option>
+            <option value="صلاح الدين">صلاح الدين</option>
+            <option value="حلبجة">حلبجة</option>
+            <option value="ديوان الوزارة">ديوان الوزارة والمديريات المركزية</option>
+          </select>
+        </div>
+        <div class="field"><label>الإيميل</label><input id="md_email" type="email" placeholder="email@gmail.com"></div>
+        <div class="field"><label>رقم الواتساب</label><input id="md_phone" placeholder="07xxxxxxxxx"></div>
+      </div>
+      <div class="field"><label>الأيقونة</label><input id="md_icon" value="🏫" maxlength="4" style="width:80px"></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn bg" onclick="saveDir()">💾 حفظ وإنشاء الرابط</button>
+        <button class="btn bo" onclick="closeModal('addDirModal')">إلغاء</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: VIEW SUBMISSION ══ -->
+<div class="overlay hidden" id="viewModal">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-hdr">
+      <h3 id="viewModalTitle">تفاصيل التقييم</h3>
+      <button class="modal-close" onclick="closeModal('viewModal')">✕</button>
+    </div>
+    <div class="modal-body" id="viewModalBody"></div>
+  </div>
+</div>
+
+
+<!-- NOTIF BELL -->
+<div class="notif-wrap">
+  <button class="notif-btn" onclick="toggleNotifSound()" title="تفعيل/إيقاف الإشعارات الصوتية" id="notifBtn">🔔</button>
+  <div class="notif-count" id="notifCount" style="display:none">0</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════ STATE ══════════════════
+let S = {
+  dirs: [],        // list of directorates
+  submissions: {}, // { dirId: submissionData }
+  settings: {
+    sysname: 'استمارة رقابة الأداء المؤسسي — وزارة التربية العراقية 2026',
+    period: 'الربع الأول 2026',
+    deadline: '',
+    admin: '',
+  },
+  levels: [
+    {min:90, label:'ممتاز',             color:'#1B6B3A'},
+    {min:75, label:'جيد جداً',          color:'#1A4F8A'},
+    {min:60, label:'جيد',              color:'#B8860B'},
+    {min:40, label:'يحتاج تحسين',      color:'#C44B00'},
+    {min:0,  label:'ضعيف',             color:'#C0392B'},
+  ],
+  formScores: {},
+  formNotes:  {},
+  currentDir: null,
+};
+
+function var_(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function cssVar(name){ return var_(name) || '#555'; }
+
+// ══════════════════ AXES DATA ══════════════════
+const AXES = [
+  { id:'ax1', title:'المحور الأول: التنظيم الإداري والهيكلي', efqm:'C1+C2', weight:15, color:'#0D2B55', icon:'🏗️',
+    criteria:[
+      {id:'c1_1', name:'1.1 الهيكل التنظيمي', desc:'وجود هيكل رسمي معتمد ومحدث مطابق للملاك الفعلي', indicator:'نسبة توافق العناوين الوظيفية مع بطاقات الوصف الوظيفي', efqm:'C1', weight:4},
+      {id:'c1_2', name:'1.2 توزيع الصلاحيات', desc:'وضوح المسؤوليات وتوثيقها بأوامر إدارية صريحة', indicator:'فحص القرارات والتأكد من عدم تداخل الصلاحيات', efqm:'C1', weight:4},
+      {id:'c1_3', name:'1.3 اجتماعات الإدارة', desc:'انتظام الاجتماعات الدورية ومتابعة تنفيذ قراراتها', indicator:'(القرارات المنفذة ÷ الإجمالي) × 100%', efqm:'C1', weight:4},
+      {id:'c1_4', name:'1.4 حفظ السجلات', desc:'أرشيف ورقي وإلكتروني منظم بنظام ترميز موحد', indicator:'زمن استخراج وثيقة قديمة (الهدف: أقل من 5 دقائق)', efqm:'C4', weight:3},
+    ]},
+  { id:'ax2', title:'المحور الثاني: الأداء الفني والتربوي', efqm:'C2+C5+C6', weight:25, color:'#1A4F8A', icon:'📚',
+    criteria:[
+      {id:'c2_1', name:'2.1 الخطة السنوية', desc:'خطة مكتوبة معتمدة قائمة على أهداف SMART', indicator:'توفر خطط بديلة موثقة لمواجهة المعوقات الفنية', efqm:'C2', weight:6},
+      {id:'c2_2', name:'2.2 التنفيذ الفعلي', desc:'نسبة الإنجاز الفعلي مقارنة بالمستهدفات', indicator:'نسبة الانحراف بين المخطط والمنفذ وأسباب التأخر', efqm:'C5', weight:8},
+      {id:'c2_3', name:'2.3 المتابعة والتعديل', desc:'آليات التقييم الدوري والتعديلات التصحيحية', indicator:'التعديلات الرسمية المجراة بناءً على متغيرات الميدان', efqm:'C5', weight:5},
+      {id:'c2_4', name:'2.4 جودة المخرجات التربوية', desc:'جودة تحقيق الأهداف التربوية وأثرها', indicator:'نسبة رضا المدارس والمؤسسات المستفيدة', efqm:'C6', weight:6},
+    ]},
+  { id:'ax3', title:'المحور الثالث: الموارد البشرية والكوادر', efqm:'C3+C7', weight:15, color:'#0B6E5E', icon:'👥',
+    criteria:[
+      {id:'c3_1', name:'3.1 المؤهلات والتخصص', desc:'ملاءمة المؤهلات الأكاديمية للمهام الموكلة', indicator:'نسبة الموظفين ضمن تخصصاتهم الدقيقة', efqm:'C3', weight:3},
+      {id:'c3_2', name:'3.2 التدريب والتطوير', desc:'دورات تدريبية مستمرة لتطوير كفاءة الكادر', indicator:'عدد الساعات التدريبية لكل موظف سنوياً', efqm:'C3', weight:5},
+      {id:'c3_3', name:'3.3 تقييم الأداء الوظيفي', desc:'انتظام تقييم الأداء السنوي بموضوعية', indicator:'نسبة التظلمات ومدى ارتباط التقييم بالحوافز', efqm:'C7', weight:4},
+      {id:'c3_4', name:'3.4 الانضباط والحضور', desc:'انتظام الحضور والالتزام بالدوام الرسمي', indicator:'(أيام الحضور الفعلي ÷ أيام الدوام) × 100%', efqm:'C7', weight:3},
+    ]},
+  { id:'ax4', title:'المحور الرابع: الإدارة المالية والرقابة', efqm:'C4+C9', weight:15, color:'#5B2C6F', icon:'💰',
+    criteria:[
+      {id:'c4_1', name:'4.1 ضوابط الصرف', desc:'الالتزام بضوابط وتعليمات الصرف والقوانين المالية', indicator:'نسبة السندات المرفوضة أو المعاد تصحيحها', efqm:'C4', weight:5},
+      {id:'c4_2', name:'4.2 السجلات المحاسبية', desc:'تنظيم وتحديث السجلات المحاسبية بشكل دوري', indicator:'مطابقة اليومية العامة مع الحسابات المصرفية', efqm:'C4', weight:3},
+      {id:'c4_3', name:'4.3 الرقابة الداخلية', desc:'فاعلية الرقابة المالية والتدقيق الداخلي', indicator:'زمن الاستجابة لتعديل ملاحظات التدقيق', efqm:'C9', weight:4},
+      {id:'c4_4', name:'4.4 التقارير المالية', desc:'انتظام رفع التقارير المالية في المواعيد المقررة', indicator:'أيام التأخير عن موعد التسليم النظامي', efqm:'C9', weight:3},
+    ]},
+  { id:'ax5', title:'المحور الخامس: التحول الرقمي', efqm:'C4+C5', weight:10, color:'#B8860B', icon:'💻',
+    criteria:[
+      {id:'c5_1', name:'5.1 استخدام الأنظمة', desc:'أنظمة إلكترونية متكاملة لإنجاز المعاملات', indicator:'نسبة المعاملات الإلكترونية مقارنة بالورقية', efqm:'C4', weight:3},
+      {id:'c5_2', name:'5.2 الأرشفة الإلكترونية', desc:'أرشيف رقمي منظم ومفهرس', indicator:'نسبة الملفات المؤرشفة رقمياً وسهولة البحث', efqm:'C4', weight:3},
+      {id:'c5_3', name:'5.3 حماية البيانات', desc:'نسخ احتياطية دورية وسياسات حماية المعلومات', indicator:'دورية النسخ الاحتياطي وتوفر وسائط معزولة', efqm:'C4', weight:2},
+      {id:'c5_4', name:'5.4 التدريب التقني', desc:'تدريب الكادر على الأنظمة التقنية', indicator:'نسبة الموظفين القادرين على التشغيل بمفردهم', efqm:'C3', weight:2},
+    ]},
+  { id:'ax6', title:'المحور السادس: خدمة المواطن', efqm:'C5+C6', weight:10, color:'#C44B00', icon:'🤝',
+    criteria:[
+      {id:'c6_1', name:'6.1 استقبال المراجعين', desc:'كفاءة الاستقبال وبيئة المراجعة اللائقة', indicator:'زمن الانتظار وتوافر التسهيلات الأساسية', efqm:'C6', weight:2},
+      {id:'c6_2', name:'6.2 معالجة الشكاوى', desc:'آلية واضحة وموثقة للشكاوى والمقترحات', indicator:'(الشكاوى المحسومة ÷ الإجمالي) × 100%', efqm:'C6', weight:3},
+      {id:'c6_3', name:'6.3 وضوح الإجراءات', desc:'لوحات إرشادية ودليل مستمسكات لكل معاملة', indicator:'وجود لوحات جدارية محدّثة تشرح المسارات', efqm:'C5', weight:2},
+      {id:'c6_4', name:'6.4 سرعة الإنجاز', desc:'سرعة دورة العمل المستندية لإكمال المعاملات', indicator:'متوسط وقت إكمال معاملة شائعة', efqm:'C6', weight:3},
+    ]},
+  { id:'ax7', title:'المحور السابع: الشفافية والنزاهة', efqm:'C1+C8', weight:10, color:'#8B1A1A', icon:'⚖️',
+    criteria:[
+      {id:'c7_1', name:'7.1 الإفصاح المالي', desc:'توفر البيانات المالية للجمهور بشفافية', indicator:'نشر الكشوفات الإحصائية غير السرية', efqm:'C8', weight:2},
+      {id:'c7_2', name:'7.2 مكافحة الفساد', desc:'فاعلية رصد المخالفات والتحقق الفوري', indicator:'سرعة تشكيل اللجان التحقيقية', efqm:'C1', weight:3},
+      {id:'c7_3', name:'7.3 الامتثال للتعليمات', desc:'الالتزام باللوائح الإدارية والمالية', indicator:'نسبة القرارات المُلغاة لمخالفتها الضوابط', efqm:'C1', weight:3},
+      {id:'c7_4', name:'7.4 الرقابة المستقلة', desc:'الاستجابة لتوصيات الجهات الرقابية الخارجية', indicator:'نسبة تطبيق توصيات ديوان الرقابة المالية', efqm:'C9', weight:2},
+    ]},
+];
+
+// ══════════════════ INIT ══════════════════
+function init() {
+  loadState();
+  if (!S.dirs.length) seedDefaultDirs();
+  renderAdmin();
+  renderLinks();
+  renderLevelsEditor();
+  renderSettingsFields();
+  checkUrlParams();
+}
+
+function seedDefaultDirs() {
+  const defaults = [
+    // ── بغداد / الكرخ ──
+    {name:'المديرية العامة لتربية بغداد الكرخ الأولى',  head:'المدير العام',  icon:'🏫', region:'بغداد-كرخ', email:'', phone:''},
+    {name:'المديرية العامة لتربية بغداد الكرخ الثانية', head:'المدير العام',  icon:'🏫', region:'بغداد-كرخ', email:'', phone:''},
+    {name:'المديرية العامة لتربية بغداد الكرخ الثالثة', head:'المدير العام',  icon:'🏫', region:'بغداد-كرخ', email:'', phone:''},
+    // ── بغداد / الرصافة ──
+    {name:'المديرية العامة لتربية بغداد الرصافة الأولى',  head:'المدير العام', icon:'🏫', region:'بغداد-رصافة', email:'', phone:''},
+    {name:'المديرية العامة لتربية بغداد الرصافة الثانية', head:'المدير العام', icon:'🏫', region:'بغداد-رصافة', email:'', phone:''},
+    {name:'المديرية العامة لتربية بغداد الرصافة الثالثة', head:'المدير العام', icon:'🏫', region:'بغداد-رصافة', email:'', phone:''},
+    // ── المحافظات ──
+    {name:'مديرية تربية محافظة البصرة',     head:'مدير عام تربية البصرة',     icon:'🌊', region:'البصرة',     email:'', phone:''},
+    {name:'مديرية تربية محافظة نينوى',      head:'مدير عام تربية نينوى',      icon:'🕌', region:'نينوى',      email:'', phone:''},
+    {name:'مديرية تربية محافظة أربيل',      head:'مدير عام تربية أربيل',      icon:'🏔️', region:'إقليم كردستان', email:'', phone:''},
+    {name:'مديرية تربية محافظة السليمانية', head:'مدير عام تربية السليمانية', icon:'🏔️', region:'إقليم كردستان', email:'', phone:''},
+    {name:'مديرية تربية محافظة دهوك',       head:'مدير عام تربية دهوك',       icon:'🏔️', region:'إقليم كردستان', email:'', phone:''},
+    {name:'مديرية تربية محافظة ذي قار',    head:'مدير عام تربية ذي قار',    icon:'🏛️', region:'ذي قار',     email:'', phone:''},
+    {name:'مديرية تربية محافظة الأنبار',    head:'مدير عام تربية الأنبار',    icon:'🌅', region:'الأنبار',    email:'', phone:''},
+    {name:'مديرية تربية محافظة ديالى',      head:'مدير عام تربية ديالى',      icon:'🌿', region:'ديالى',      email:'', phone:''},
+    {name:'مديرية تربية محافظة كركوك',      head:'مدير عام تربية كركوك',      icon:'🏭', region:'كركوك',      email:'', phone:''},
+    {name:'مديرية تربية محافظة بابل',       head:'مدير عام تربية بابل',       icon:'🏺', region:'بابل',       email:'', phone:''},
+    {name:'مديرية تربية محافظة كربلاء',     head:'مدير عام تربية كربلاء',     icon:'✨', region:'كربلاء',     email:'', phone:''},
+    {name:'مديرية تربية محافظة النجف',      head:'مدير عام تربية النجف',      icon:'🕍', region:'النجف',      email:'', phone:''},
+    {name:'مديرية تربية محافظة واسط',       head:'مدير عام تربية واسط',       icon:'🌾', region:'واسط',       email:'', phone:''},
+    {name:'مديرية تربية محافظة ميسان',      head:'مدير عام تربية ميسان',      icon:'🌴', region:'ميسان',      email:'', phone:''},
+    {name:'مديرية تربية محافظة المثنى',     head:'مدير عام تربية المثنى',     icon:'🏜️', region:'المثنى',     email:'', phone:''},
+    {name:'مديرية تربية محافظة القادسية',   head:'مدير عام تربية القادسية',   icon:'⚔️', region:'القادسية',   email:'', phone:''},
+    {name:'مديرية تربية محافظة صلاح الدين', head:'مدير عام تربية صلاح الدين', icon:'🌄', region:'صلاح الدين', email:'', phone:''},
+    {name:'مديرية تربية محافظة حلبجة',     head:'مدير عام تربية حلبجة',     icon:'🌸', region:'إقليم كردستان', email:'', phone:''},
+    // ── ديوان الوزارة والمديريات العامة المركزية (بالتسلسل الرسمي) ──
+    {name:'ديوان الوزارة',                                        head:'مدير عام ديوان الوزارة',                    icon:'🏛️', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للشؤون المالية',                       head:'المدير العام للشؤون المالية',               icon:'💰', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للشؤون القانونية',                     head:'المدير العام للشؤون القانونية',             icon:'⚖️', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للمناهج',                              head:'المدير العام للمناهج',                      icon:'📚', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للتخطيط',                              head:'المدير العام للتخطيط',                      icon:'📊', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للشؤون الإدارية',                      head:'المدير العام للشؤون الإدارية',              icon:'🗂️', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للتعليم العام والأهلي والأجنبي',       head:'المدير العام للتعليم العام',                icon:'🏫', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للإشراف التربوي',                      head:'المدير العام للإشراف التربوي',              icon:'📋', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للتقويم والامتحانات',                  head:'المدير العام للتقويم والامتحانات',          icon:'📝', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للتعليم المهني',                       head:'المدير العام للتعليم المهني',               icon:'🔧', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للدراسة السريانية',                    head:'المدير العام للدراسة السريانية',            icon:'✝️', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للدراسة الكردية',                      head:'المدير العام للدراسة الكردية',              icon:'🌿', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للدراسة التركمانية',                   head:'المدير العام للدراسة التركمانية',           icon:'🌙', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'الهيئة العليا لمحو الأمية / الجهاز التنفيذي',         head:'رئيس الجهاز التنفيذي لمحو الأمية',         icon:'✏️', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'مديرية التلفزيون التربوي',                             head:'مدير التلفزيون التربوي',                    icon:'📺', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'المديرية العامة للنشاط الرياضي والمدرسي',              head:'المدير العام للنشاط الرياضي والمدرسي',      icon:'⚽', region:'ديوان الوزارة',  email:'', phone:''},
+    {name:'مديرية التدقيق والرقابة الداخلية',                     head:'مدير التدقيق والرقابة الداخلية',            icon:'🔍', region:'ديوان الوزارة',  email:'', phone:''},
+  ];
+  defaults.forEach(d => {
+    S.dirs.push({ id: uid(), ...d, createdAt: new Date().toISOString() });
+  });
+  saveState();
+}
+
+// ══════════════════ URL PARAMS ══════════════════
+function checkUrlParams() {
+  const params = new URLSearchParams(window.location.search);
+  const dirId  = params.get('dir');
+  if (dirId) {
+    const dir = S.dirs.find(d => d.id === dirId);
+    if (dir) openFormForDir(dir);
+    else showToast('❌ رابط غير صحيح أو منتهي الصلاحية');
+  }
+}
+
+function getDirUrl(dir) {
+  return window.location.origin + window.location.pathname + '?dir=' + dir.id;
+}
+
+// ══════════════════ ADMIN DASHBOARD ══════════════════
+function renderAdmin() {
+  renderStats();
+  renderAdminTable();
+  setTimeout(renderChart, 100);
+  setTimeout(filterTable, 100);
+}
+
+function renderStats() {
+  const total    = S.dirs.length;
+  const done     = S.dirs.filter(d => S.submissions[d.id]).length;
+  const pending  = total - done;
+  const avgScore = done > 0
+    ? (S.dirs.filter(d=>S.submissions[d.id])
+        .reduce((s,d) => s + (S.submissions[d.id].totalScore||0), 0) / done).toFixed(1)
+    : '—';
+
+  const bar   = document.getElementById('statsBar');
+  const items = [
+    {num: total,    label:'إجمالي المديريات',   sub:'في المنظومة',         color:'#0D2B55'},
+    {num: done,     label:'أكملت التقييم',       sub:'استمارة مُرسلة',     color:'#1B6B3A'},
+    {num: pending,  label:'لم تُكمل بعد',        sub:'في الانتظار',         color:'#C44B00'},
+    {num: avgScore, label:'متوسط النتيجة',        sub:'من 100 نقطة',         color:'#1A4F8A'},
+  ];
+  bar.innerHTML = items.map(it => `
+    <div class="stat-box" style="border-top-color:${it.color}">
+      <div class="stat-num" style="color:${it.color}">${it.num}</div>
+      <div class="stat-label">${it.label}</div>
+      <div class="stat-sub">${it.sub}</div>
+    </div>`).join('');
+
+  const pct = total > 0 ? Math.round(done/total*100) : 0;
+  document.getElementById('progBar').style.width  = pct + '%';
+  document.getElementById('progPct').textContent  = pct + '%';
+  document.getElementById('progText').textContent = `${done} من ${total} أكملت التقييم`;
+  document.getElementById('totalDirs').textContent = total + ' مديرية';
+}
+
+function renderAdminTable() {
+  const tbody = document.getElementById('adminTbody');
+  tbody.innerHTML = '';
+  S.dirs.forEach(dir => {
+    const sub   = S.submissions[dir.id];
+    const score = sub ? sub.totalScore : null;
+    const lvl   = score !== null ? getLevel(score) : null;
+
+    const statusHtml = sub
+      ? `<span class="status-badge s-done">✅ مُكتملة</span>`
+      : `<span class="status-badge s-not">⏳ لم تُرسل</span>`;
+
+    const scoreHtml = score !== null
+      ? `<span class="score-pill ${scoreClass(score)}">${score.toFixed(1)}</span>`
+      : `<span class="score-pill sp-na">—</span>`;
+
+    const levelHtml = lvl
+      ? `<span style="color:${lvl.color};font-weight:700">${lvl.label}</span>`
+      : '<span style="color:#9aa0a6">—</span>';
+
+    const dateHtml  = sub
+      ? new Date(sub.submittedAt).toLocaleString('ar-IQ')
+      : '<span style="color:#9aa0a6">—</span>';
+
+    const timeHtml  = sub && sub.duration
+      ? sub.duration + ' دقيقة'
+      : '<span style="color:#9aa0a6">—</span>';
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><b>${dir.icon||'🏫'} ${dir.name}</b><br><span style="font-size:.75rem;color:#4A5568">${dir.head}</span></td>
+      <td><span style="background:var(--g1);border-radius:12px;padding:3px 10px;font-size:.75rem;font-weight:700;color:var(--navy)">${dir.region||'—'}</span></td>
+      <td>${statusHtml}</td>
+      <td>${scoreHtml}</td>
+      <td>${levelHtml}</td>
+      <td style="font-size:.78rem">${dateHtml}</td>
+      <td style="font-size:.78rem">${timeHtml}</td>
+      <td>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          ${sub ? `<button class="btn bxs bb" onclick="viewSubmission('${dir.id}')">👁️ عرض</button>` : ''}
+          <button class="copy-link" onclick="copyDirLink('${dir.id}')">📋 نسخ الرابط</button>
+          ${sub ? `<button class="btn bxs br" onclick="deleteSubmission('${dir.id}')">🗑️</button>` : ''}
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function viewSubmission(dirId) {
+  const sub = S.submissions[dirId];
+  const dir = S.dirs.find(d => d.id === dirId);
+  if (!sub || !dir) return;
+
+  let html = `<div style="margin-bottom:14px">
+    <b>${dir.icon} ${dir.name}</b> | النتيجة: <b style="color:${getLevel(sub.totalScore).color}">${sub.totalScore.toFixed(1)} / 100</b>
+    | المستوى: <b>${getLevel(sub.totalScore).label}</b><br>
+    <span style="font-size:.8rem;color:#4A5568">تاريخ الإرسال: ${new Date(sub.submittedAt).toLocaleString('ar-IQ')}</span>
+  </div>`;
+
+  AXES.forEach(ax => {
+    const axScore = ax.criteria.reduce((s,cr) => {
+      const v = sub.scores[cr.id];
+      return s + (v !== undefined ? v * cr.weight / 100 : 0);
+    }, 0);
+    html += `<div style="margin-bottom:10px;background:var(--g0);border-radius:8px;padding:10px 12px">
+      <div style="font-weight:800;color:${ax.color};font-size:.88rem;margin-bottom:6px">${ax.icon} ${ax.title} | ${axScore.toFixed(1)} / ${ax.weight}</div>`;
+    ax.criteria.forEach(cr => {
+      const v = sub.scores[cr.id];
+      html += `<div style="display:flex;justify-content:space-between;font-size:.8rem;padding:3px 0;border-bottom:1px solid var(--g2)">
+        <span>${cr.name}</span>
+        <span style="font-weight:700;color:${v>=75?'#1B6B3A':v>=60?'#B8860B':v>=40?'#C44B00':'#C0392B'}">${v !== undefined ? v : '—'}</span>
+      </div>`;
+      if (sub.notes && sub.notes[cr.id]) {
+        html += `<div style="font-size:.75rem;color:#4A5568;padding:2px 0 4px">💬 ${sub.notes[cr.id]}</div>`;
+      }
+    });
+    html += '</div>';
+  });
+
+  document.getElementById('viewModalTitle').textContent = `تفاصيل: ${dir.name}`;
+  document.getElementById('viewModalBody').innerHTML = html;
+  openModal('viewModal');
+}
+
+function deleteSubmission(dirId) {
+  if (!confirm('حذف بيانات هذا التقييم؟')) return;
+  delete S.submissions[dirId];
+  saveState();
+  renderAdmin();
+  showToast('🗑️ تم حذف التقييم');
+}
+
+function refreshData() {
+  loadState();
+  renderAdmin();
+  showToast('🔄 تم التحديث');
+}
+
+// ══════════════════ LINKS VIEW ══════════════════
+function renderLinks() {
+  const c = document.getElementById('dirCards');
+  c.innerHTML = '';
+  // Group by region
+  const regions = {};
+  S.dirs.forEach((dir, idx) => {
+    const r = dir.region || 'أخرى';
+    if (!regions[r]) regions[r] = [];
+    regions[r].push({dir, idx});
+  });
+  Object.entries(regions).forEach(([region, items]) => {
+    const grpHdr = document.createElement('div');
+    grpHdr.style.cssText = 'grid-column:1/-1;background:var(--navy);color:#FFD700;border-radius:9px;padding:10px 18px;font-weight:900;font-size:.88rem;margin-bottom:4px;';
+    grpHdr.textContent = '📍 ' + region + ' (' + items.length + ' مديرية)';
+    c.appendChild(grpHdr);
+    items.forEach(({dir, idx}) => {
+    const url  = getDirUrl(dir);
+    const sub  = S.submissions[dir.id];
+    const waUrl = `https://wa.me/${(dir.phone||'').replace(/\D/g,'')}?text=${encodeURIComponent('السادة المحترمون،\nيُرجى تعبئة استمارة رقابة الأداء المؤسسي عبر الرابط التالي:\n' + url)}`;
+
+    const div = document.createElement('div');
+    div.className = 'dir-card';
+    div.innerHTML = `
+      <div class="dc-header">
+        <div class="dc-icon">${dir.icon||'🏫'}</div>
+        <div>
+          <div class="dc-name">${dir.name}</div>
+          <div class="dc-dept">${dir.head}</div>
+        </div>
+        <div style="margin-right:auto">
+          ${sub
+            ? `<span class="status-badge s-done" style="font-size:.7rem">✅ مُكتملة</span>`
+            : `<span class="status-badge s-not" style="font-size:.7rem">⏳ معلقة</span>`}
+        </div>
+      </div>
+      <div class="dc-body">
+        <div class="dc-link">
+          <span class="dc-link-text" id="lnk_${dir.id}">${url}</span>
+          <button class="copy-link" onclick="copyDirLink('${dir.id}')">نسخ</button>
+        </div>
+        <div class="dc-btns">
+          <button class="btn bsm bg" onclick="copyDirLink('${dir.id}')">📋 نسخ الرابط</button>
+          ${dir.phone ? `<a href="${waUrl}" target="_blank" class="btn bsm" style="background:#25D366;color:#fff;text-decoration:none">📱 واتساب</a>` : ''}
+          <button class="btn bsm bb" onclick="openFormForDirId('${dir.id}')">👁️ معاينة</button>
+          <button class="btn bxs bo" onclick="editDir(${idx})">✏️</button>
+          <button class="btn bxs br" onclick="deleteDir(${idx})">🗑️</button>
+        </div>
+      </div>
+    `;
+      c.appendChild(div);
+    });
+  });
+}
+
+function copyDirLink(dirId) {
+  const dir = S.dirs.find(d => d.id === dirId);
+  if (!dir) return;
+  navigator.clipboard.writeText(getDirUrl(dir)).then(() => showToast('✅ تم نسخ رابط ' + dir.name));
+}
+
+function copyAllLinks() {
+  const txt = S.dirs.map(d => `${d.name}:\n${getDirUrl(d)}`).join('\n\n');
+  navigator.clipboard.writeText(txt).then(() => showToast('✅ تم نسخ كل الروابط (' + S.dirs.length + ')'));
+}
+
+// ══════════════════ DIR MODAL ══════════════════
+let editDirIdx = null;
+function openAddDirModal() {
+  editDirIdx = null;
+  document.getElementById('addDirTitle').textContent = '➕ إضافة مديرية / قسم';
+  ['md_name','md_head','md_email','md_phone'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('md_icon').value = '🏫';
+  openModal('addDirModal');
+}
+function editDir(idx) {
+  editDirIdx = idx;
+  const d = S.dirs[idx];
+  document.getElementById('addDirTitle').textContent = '✏️ تعديل: ' + d.name;
+  document.getElementById('md_name').value   = d.name;
+  document.getElementById('md_head').value   = d.head;
+  document.getElementById('md_region').value = d.region || '';
+  document.getElementById('md_email').value  = d.email || '';
+  document.getElementById('md_phone').value  = d.phone || '';
+  document.getElementById('md_icon').value   = d.icon  || '🏫';
+  openModal('addDirModal');
+}
+function saveDir() {
+  const name = document.getElementById('md_name').value.trim();
+  if (!name) { showToast('❌ اسم المديرية مطلوب'); return; }
+  const d = {
+    id:     editDirIdx !== null ? S.dirs[editDirIdx].id : uid(),
+    name,
+    head:   document.getElementById('md_head').value.trim(),
+    region: document.getElementById('md_region')?.value || '',
+    email:  document.getElementById('md_email').value.trim(),
+    phone:  document.getElementById('md_phone').value.trim(),
+    icon:   document.getElementById('md_icon').value || '🏫',
+    createdAt: editDirIdx !== null ? S.dirs[editDirIdx].createdAt : new Date().toISOString(),
+  };
+  if (editDirIdx !== null) S.dirs[editDirIdx] = d;
+  else S.dirs.push(d);
+  saveState();
+  closeModal('addDirModal');
+  renderAdmin();
+  renderLinks();
+  showToast('✅ تم حفظ ' + name + ' — الرابط جاهز');
+}
+function deleteDir(idx) {
+  if (!confirm('حذف ' + S.dirs[idx].name + '؟')) return;
+  S.dirs.splice(idx, 1);
+  saveState();
+  renderAdmin();
+  renderLinks();
+  showToast('🗑️ تم الحذف');
+}
+
+// ══════════════════ FORM (DIRECTORATE) ══════════════════
+function openFormForDirId(dirId) {
+  const dir = S.dirs.find(d => d.id === dirId);
+  if (dir) openFormForDir(dir);
+}
+
+function openFormForDir(dir) {
+  S.currentDir   = dir;
+  S.formScores   = {};
+  S.formNotes    = {};
+  S._formStart   = Date.now();
+
+  // Load draft if exists
+  const draft = JSON.parse(localStorage.getItem('draft_' + dir.id) || 'null');
+  if (draft) { S.formScores = draft.scores || {}; S.formNotes = draft.notes || {}; }
+
+  // Hero
+  document.getElementById('formHero').innerHTML = `
+    <div class="form-hero">
+      <div style="font-size:.75rem;opacity:.7;margin-bottom:6px">رابط خاص — ${dir.icon||'🏫'} ${dir.name}</div>
+      <h1>${S.settings.sysname||'استمارة رقابة الأداء المؤسسي'}</h1>
+      <p>المسؤول: ${dir.head} | وفق معايير EFQM 2026</p>
+      <div class="form-meta">
+        <span class="fm-badge">📅 ${S.settings.period}</span>
+        <span class="fm-badge">🏛️ ${dir.name}</span>
+        ${S.settings.deadline ? `<span class="fm-badge">⏰ الموعد النهائي: ${S.settings.deadline}</span>` : ''}
+      </div>
+    </div>
+  `;
+
+  // Sections
+  const fc = document.getElementById('formSections');
+  fc.innerHTML = '';
+  AXES.forEach(ax => {
+    const sec = document.createElement('div');
+    sec.className = 'section-block';
+    sec.id = 'fsec_' + ax.id;
+    sec.innerHTML = `
+      <div class="sec-hdr" onclick="toggleFSec('${ax.id}')" style="background:${ax.color}">
+        <div class="sec-icon">${ax.icon}</div>
+        <div><div class="sec-title">${ax.title}</div>
+          <div class="sec-sub">${ax.efqm} | الوزن: ${ax.weight}%</div></div>
+        <div id="fbadge_${ax.id}" style="background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.35);border-radius:14px;padding:4px 12px;font-weight:800;color:#fff;font-size:.88rem;flex-shrink:0">0 / ${ax.weight}</div>
+        <div class="sec-chev">▼</div>
+      </div>
+      <div class="sec-body" id="fbody_${ax.id}"></div>
+    `;
+    fc.appendChild(sec);
+
+    const body = document.getElementById('fbody_' + ax.id);
+    ax.criteria.forEach(cr => {
+      const v = S.formScores[cr.id];
+      const row = document.createElement('div');
+      row.className = 'crit-row';
+      row.innerHTML = `
+        <div class="crit-name">${cr.name}</div>
+        <div class="crit-desc">${cr.desc}</div>
+        <div class="crit-indicator">📏 ${cr.indicator}</div>
+        <div class="crit-inputs">
+          <input type="number" class="score-inp ${v!==undefined?scoreClass(v):''}"
+            id="fsc_${cr.id}" min="0" max="100" placeholder="0-100"
+            value="${v!==undefined?v:''}"
+            oninput="onFScore('${ax.id}','${cr.id}',this)">
+          <span class="weight-tag">${cr.weight}%</span>
+          <span class="efqm-tag">${cr.efqm}</span>
+          <span class="res-tag" id="fres_${cr.id}" style="background:${v!==undefined?scoreColor(v)+'22':'var(--g1)'};color:${v!==undefined?scoreColor(v):'#9aa0a6'}">${v!==undefined?(v*cr.weight/100).toFixed(2):'—'}</span>
+          <textarea class="note-inp" rows="1" placeholder="ملاحظة..." id="fnote_${cr.id}"
+            oninput="S.formNotes['${cr.id}']=this.value">${S.formNotes[cr.id]||''}</textarea>
+        </div>
+      `;
+      body.appendChild(row);
+    });
+  });
+
+  // Open first section
+  document.querySelector('.section-block')?.classList.add('open');
+  updateFormTotal();
+  showView('v-form');
+  document.getElementById('successScreen').style.display = 'none';
+  document.getElementById('formWrap').style.display = 'block';
+}
+
+function toggleFSec(id) {
+  document.getElementById('fsec_' + id)?.classList.toggle('open');
+}
+
+function onFScore(axId, crId, input) {
+  let v = parseFloat(input.value);
+  if (isNaN(v)) { delete S.formScores[crId]; v = null; }
+  else { v = Math.max(0, Math.min(100, v)); input.value = v; S.formScores[crId] = v; }
+  input.className = 'score-inp ' + (v !== null ? scoreClass(v) : '');
+  const res = document.getElementById('fres_' + crId);
+  const ax  = AXES.find(a => a.id === axId);
+  const cr  = ax?.criteria.find(c => c.id === crId);
+  if (res && cr) {
+    if (v !== null) {
+      const r = (v * cr.weight / 100).toFixed(2);
+      res.style.background = scoreColor(v) + '22';
+      res.style.color = scoreColor(v);
+      res.textContent = r;
+    } else {
+      res.style.background = 'var(--g1)'; res.style.color = '#9aa0a6'; res.textContent = '—';
+    }
+  }
+  updateAxisBadge(axId);
+  updateFormTotal();
+}
+
+function updateAxisBadge(axId) {
+  const ax = AXES.find(a => a.id === axId);
+  if (!ax) return;
+  const sc = ax.criteria.reduce((s,cr) => {
+    const v = S.formScores[cr.id];
+    return s + (v !== undefined ? v * cr.weight / 100 : 0);
+  }, 0);
+  const badge = document.getElementById('fbadge_' + axId);
+  if (badge) badge.textContent = `${sc.toFixed(1)} / ${ax.weight}`;
+}
+
+function updateFormTotal() {
+  let total = 0;
+  AXES.forEach(ax => {
+    ax.criteria.forEach(cr => {
+      const v = S.formScores[cr.id];
+      if (v !== undefined) total += v * cr.weight / 100;
+    });
+  });
+  const lvl = getLevel(total);
+  document.getElementById('submitScore').textContent = total.toFixed(1) + ' / 100';
+  document.getElementById('submitLevel').textContent = lvl.label;
+  document.getElementById('submitLevel').style.color = lvl.color;
+}
+
+function saveFormDraft() {
+  if (!S.currentDir) return;
+  localStorage.setItem('draft_' + S.currentDir.id, JSON.stringify({scores: S.formScores, notes: S.formNotes}));
+  showToast('💾 تم حفظ المسودة');
+}
+
+function submitForm() {
+  const dir = S.currentDir;
+  if (!dir) return;
+
+  // Check at least 50% filled
+  const totalCrit = AXES.reduce((s,ax)=>s+ax.criteria.length,0);
+  const filled = Object.keys(S.formScores).length;
+  if (filled < Math.ceil(totalCrit * 0.5)) {
+    showToast('⚠️ يُرجى تعبئة نصف المعايير على الأقل (' + Math.ceil(totalCrit*0.5) + ' معيار)');
+    return;
+  }
+
+  let total = 0;
+  AXES.forEach(ax => ax.criteria.forEach(cr => {
+    const v = S.formScores[cr.id];
+    if (v !== undefined) total += v * cr.weight / 100;
+  }));
+
+  const duration = Math.round((Date.now() - (S._formStart||Date.now())) / 60000);
+  S.submissions[dir.id] = {
+    dirId: dir.id, dirName: dir.name,
+    scores: {...S.formScores}, notes: {...S.formNotes},
+    totalScore: total, submittedAt: new Date().toISOString(),
+    duration, filledCount: filled,
+  };
+  saveState();
+  localStorage.removeItem('draft_' + dir.id);
+
+  // Show success
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+  document.getElementById('successMsg').innerHTML =
+    `النتيجة الإجمالية: <b style="color:${getLevel(total).color};font-size:1.3rem">${total.toFixed(1)} / 100</b><br>
+     مستوى الأداء: <b style="color:${getLevel(total).color}">${getLevel(total).label}</b><br><br>
+     شكراً لـ <b>${dir.name}</b> على تعبئة الاستمارة.`;
+
+  renderAdmin();
+  renderChart();
+  // Clean URL after submit
+  try {
+    const url = new URL(window.location);
+    url.searchParams.delete('dir');
+    history.replaceState({}, '', url);
+  } catch(e){}
+  showToast('✅ تم الإرسال بنجاح');
+}
+
+// ══════════════════ SETTINGS ══════════════════
+function renderSettingsFields() {
+  document.getElementById('s_sysname').value  = S.settings.sysname  || '';
+  document.getElementById('s_period').value   = S.settings.period   || '';
+  document.getElementById('s_deadline').value = S.settings.deadline || '';
+  document.getElementById('s_admin').value    = S.settings.admin    || '';
+}
+
+function saveSettings() {
+  S.settings.sysname  = document.getElementById('s_sysname').value;
+  S.settings.period   = document.getElementById('s_period').value;
+  S.settings.deadline = document.getElementById('s_deadline').value;
+  S.settings.admin    = document.getElementById('s_admin').value;
+  saveState();
+  showToast('✅ تم حفظ الإعدادات');
+}
+
+function renderLevelsEditor() {
+  const c = document.getElementById('levelsEditor');
+  c.innerHTML = '';
+  S.levels.forEach((lv, i) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'display:flex;align-items:center;gap:10px;margin-bottom:8px;background:var(--g0);padding:8px 12px;border-radius:7px;';
+    row.innerHTML = `
+      <input type="number" value="${lv.min}" min="0" max="100" style="width:65px;padding:6px;border:1px solid var(--g2);border-radius:5px;font-family:inherit;direction:ltr"
+        oninput="S.levels[${i}].min=parseFloat(this.value)||0">
+      <span style="font-size:.8rem;color:#4A5568">% فأكثر</span>
+      <input type="text" value="${lv.label}" style="flex:1;padding:6px 10px;border:1px solid var(--g2);border-radius:5px;font-family:inherit;direction:rtl"
+        oninput="S.levels[${i}].label=this.value">
+      <input type="color" value="${lv.color}" style="width:34px;height:28px;border:none;cursor:pointer;border-radius:4px"
+        oninput="S.levels[${i}].color=this.value">
+      <button class="btn bxs br" onclick="delLevel(${i})">🗑️</button>
+    `;
+    c.appendChild(row);
+  });
+}
+function addLevel() { S.levels.push({min:0,label:'مستوى جديد',color:'#666666'}); renderLevelsEditor(); }
+function delLevel(i) { S.levels.splice(i,1); renderLevelsEditor(); }
+
+// ══════════════════ EXPORT ══════════════════
+function exportAdminCSV() {
+  let csv = '\uFEFF';
+  csv += 'المديرية,المسؤول,الحالة,النتيجة,المستوى,تاريخ الإرسال,المدة (دقيقة)\n';
+  S.dirs.forEach(dir => {
+    const sub = S.submissions[dir.id];
+    csv += `"${dir.name}","${dir.head}",${sub?'مُكتملة':'لم تُرسل'},${sub?sub.totalScore.toFixed(1):'—'},${sub?getLevel(sub.totalScore).label:'—'},${sub?new Date(sub.submittedAt).toLocaleString('ar-IQ'):'—'},${sub?sub.duration:'—'}\n`;
+  });
+  if (Object.keys(S.submissions).length > 0) {
+    csv += '\n\nتفاصيل الدرجات\nالمديرية,المحور,المعيار,الدرجة,الوزن%,النتيجة المرجّحة\n';
+    Object.values(S.submissions).forEach(sub => {
+      AXES.forEach(ax => {
+        ax.criteria.forEach(cr => {
+          const v = sub.scores[cr.id];
+          csv += `"${sub.dirName}","${ax.title}","${cr.name}",${v!==undefined?v:'—'},${cr.weight},${v!==undefined?(v*cr.weight/100).toFixed(2):'—'}\n`;
+        });
+      });
+    });
+  }
+  const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a'); a.href=url;
+  a.download = `نتائج_التدقيق_${new Date().toLocaleDateString('ar')}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('📥 تم تصدير التقرير');
+}
+
+function exportFullData() {
+  const blob = new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a'); a.href=url;
+  a.download = `backup_tdqeeq_${Date.now()}.json`;
+  a.click(); URL.revokeObjectURL(url);
+  showToast('📦 تم تصدير كل البيانات');
+}
+
+function resetAll() {
+  if (!confirm('هل تريد مسح كل البيانات؟ هذا الإجراء لا يمكن التراجع عنه.')) return;
+  S.dirs = []; S.submissions = {}; S.formScores = {}; S.formNotes = {};
+  saveState(); init();
+  showToast('🔄 تم إعادة التعيين');
+}
+
+// ══════════════════ HELPERS ══════════════════
+function getLevel(score) {
+  const sorted = [...S.levels].sort((a,b)=>b.min-a.min);
+  return sorted.find(l=>score>=l.min) || sorted[sorted.length-1] || {label:'—',color:'#555'};
+}
+function scoreColor(v) {
+  if(v>=90) return '#1B6B3A'; if(v>=75) return '#1A4F8A';
+  if(v>=60) return '#B8860B'; if(v>=40) return '#C44B00'; return '#C0392B';
+}
+function scoreClass(v) {
+  if(v>=90) return 'ex'; if(v>=75) return 'vg';
+  if(v>=60) return 'gd'; if(v>=40) return 'ni'; return 'wr';
+}
+function uid() { return Math.random().toString(36).substr(2,9); }
+function showToast(msg) {
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',e=>{if(e.target===o)o.classList.add('hidden');});
+});
+
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.tb-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  const map={'v-admin':0,'v-links':1,'v-settings':2};
+  if(map[id]!==undefined) document.querySelectorAll('.tb-tab')[map[id]]?.classList.add('active');
+}
+
+function saveState() {
+  try { localStorage.setItem('karkh_sys', JSON.stringify({dirs:S.dirs, submissions:S.submissions, settings:S.settings, levels:S.levels})); } catch(e){}
+}
+function loadState() {
+  try {
+    const d = JSON.parse(localStorage.getItem('karkh_sys')||'{}');
+    if(d.dirs)        S.dirs        = d.dirs;
+    if(d.submissions) S.submissions = d.submissions;
+    if(d.settings)    S.settings    = d.settings;
+    if(d.levels)      S.levels      = d.levels;
+  } catch(e){}
+}
+
+
+// ══════════════════ SEARCH & FILTER ══════════════════
+let currentFilter = 'all';
+let notifSound = true;
+let newSubCount = 0;
+
+function setFilter(f) {
+  currentFilter = f;
+  ['all','done','pending'].forEach(k => {
+    const btn = document.getElementById('f' + k.charAt(0).toUpperCase() + k.slice(1));
+    if(btn) btn.classList.toggle('active', k === f);
+  });
+  filterTable();
+}
+
+function filterTable() {
+  const q      = (document.getElementById('searchInp')?.value || '').toLowerCase();
+  const region = (document.getElementById('regionFilter')?.value || '');
+  const rows   = document.querySelectorAll('#adminTbody tr');
+  rows.forEach((tr, i) => {
+    const dir  = S.dirs[i];
+    if (!dir) return;
+    const txt  = tr.textContent.toLowerCase();
+    const done = tr.innerHTML.includes('s-done');
+    let show   = txt.includes(q);
+    if (region && dir.region !== region) show = false;
+    if (currentFilter === 'done'    && !done) show = false;
+    if (currentFilter === 'pending' && done)  show = false;
+    tr.style.display = show ? '' : 'none';
+  });
+}
+
+// ══════════════════ WHATSAPP BULK ══════════════════
+function bulkWhatsApp() {
+  const pending = S.dirs.filter(d => !S.submissions[d.id]);
+  if(!pending.length){ showToast('✅ كل المديريات أكملت التقييم!'); return; }
+  
+  const lines = pending.map(d =>
+    `${d.icon||'🏫'} ${d.name}:
+${getDirUrl(d)}`
+  ).join('
+
+');
+  
+  const msg = `السادة المحترمون،
+
+يُرجى تعبئة استمارة رقابة الأداء المؤسسي — مديرية التدقيق والرقابة الداخلية 2026
+
+${lines}
+
+آخر موعد: ${S.settings.deadline||'غير محدد'}`;
+  
+  navigator.clipboard.writeText(msg).then(() => {
+    showToast('📋 تم نسخ روابط ' + pending.length + ' مديرية — الصقها في واتساب');
+  });
+}
+
+// ══════════════════ CHART ══════════════════
+function renderChart() {
+  const subs = S.dirs.filter(d => S.submissions[d.id]);
+  const card = document.getElementById('chartCard');
+  const wrap = document.getElementById('chartWrap');
+  if(!subs.length){ card.style.display='none'; return; }
+  card.style.display = 'block';
+  wrap.innerHTML = '';
+  const sorted = [...subs].sort((a,b) => (S.submissions[b.id]?.totalScore||0) - (S.submissions[a.id]?.totalScore||0));
+  sorted.forEach(dir => {
+    const score = S.submissions[dir.id]?.totalScore || 0;
+    const col   = scoreColor(score);
+    const pct   = Math.min(100, score).toFixed(0);
+    const row   = document.createElement('div');
+    row.className = 'chart-row';
+    row.innerHTML = `
+      <div class="chart-label" title="${dir.name}">${dir.icon||'🏫'} ${dir.name}</div>
+      <div class="chart-bar-bg">
+        <div class="chart-bar-fill" style="width:${pct}%;background:${col}">
+          <span class="chart-val">${score.toFixed(1)}</span>
+        </div>
+      </div>
+      <div class="chart-score" style="color:${col}">${score.toFixed(1)}</div>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+// ══════════════════ SOUND NOTIFICATION ══════════════════
+function toggleNotifSound() {
+  notifSound = !notifSound;
+  document.getElementById('notifBtn').textContent = notifSound ? '🔔' : '🔕';
+  showToast(notifSound ? '🔔 الإشعارات الصوتية مفعّلة' : '🔕 الإشعارات الصوتية موقوفة');
+}
+
+function playNotif() {
+  if(!notifSound) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 880; osc.type = 'sine';
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    osc.start(); osc.stop(ctx.currentTime + 0.4);
+  } catch(e){}
+}
+
+// ══════════════════ AUTO REFRESH ══════════════════
+let prevSubCount = Object.keys(S.submissions).length;
+
+function autoRefresh() {
+  loadState();
+  const newCount = Object.keys(S.submissions).length;
+  if(newCount > prevSubCount) {
+    const diff = newCount - prevSubCount;
+    newSubCount += diff;
+    prevSubCount = newCount;
+    const nc = document.getElementById('notifCount');
+    nc.style.display = 'flex'; nc.textContent = newSubCount;
+    showToast('🎉 وردت ' + diff + ' استمارة جديدة!');
+    playNotif();
+    renderAdmin();
+    renderChart();
+  }
+}
+
+// Auto-refresh every 30 seconds
+setInterval(autoRefresh, 30000);
+
+// Reset notif count on click
+document.getElementById('notifBtn')?.addEventListener('click', () => {
+  newSubCount = 0;
+  const nc = document.getElementById('notifCount');
+  if(nc) nc.style.display = 'none';
+});
+
+// ══════════════════ PATCH renderAdmin ══════════════════
+// renderAdmin and submitForm are already defined above
+// renderChart is called explicitly after renderAdmin calls
+
+
+// ══════════════════ START ══════════════════
+init();
+</script>
+</body>
+</html>
